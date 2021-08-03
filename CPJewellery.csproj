@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--Project was exported from assembly: D:\Indrajeet\CPJewelleryProj\CPJewelleryProj\bin\CPJewellery.dll-->
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7F4AEF90-E947-4A66-B25F-935728534D89}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>CPJewellery</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
+    <FileAlignment>512</FileAlignment>
+    <RootNamespace>CPJewellery</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="BundleConfig.cs" />
+    <Compile Include="RouteConfig.cs" />
+    <Compile Include="MvcApplication.cs" />
+    <Compile Include="Models\Admin.cs" />
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Item.cs" />
+    <Compile Include="Models\MetalRate.cs" />
+    <Compile Include="Models\PaymentInitiateModel.cs" />
+    <Compile Include="Models\TreeNode.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Controllers\adminController.cs" />
+    <Compile Include="Controllers\AuthorizeUser.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\dpController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MiscController.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="HtmlPage1.html" />
+    <Content Include="HtmlPage2.html" />
+    <Content Include="HtmlPage3.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Views\admin\AddCategory1.cshtml" />
+    <None Include="Views\admin\AddCategory2.cshtml" />
+    <None Include="Views\admin\AddCategory3.cshtml" />
+    <None Include="Views\admin\AddCategory4.cshtml" />
+    <None Include="Views\admin\AddProducts.cshtml" />
+    <None Include="Views\admin\Billprint.cshtml" />
+    <None Include="Views\admin\Createbill.cshtml" />
+    <None Include="Views\admin\Dashboard.cshtml" />
+    <None Include="Views\admin\Index.cshtml" />
+    <None Include="Views\admin\Purchase.cshtml" />
+    <None Include="Views\admin\Settings.cshtml" />
+    <None Include="Views\admin\UpdateMakingCharge.cshtml" />
+    <None Include="Views\admin\Users.cshtml" />
+    <None Include="Views\dp\Checkout.cshtml" />
+    <None Include="Views\dp\Failed.cshtml" />
+    <None Include="Views\dp\Index.cshtml" />
+    <None Include="Views\dp\PaymentDetails.cshtml" />
+    <None Include="Views\dp\PaymentProcess.cshtml" />
+    <None Include="Views\dp\Proddetails.cshtml" />
+    <None Include="Views\dp\Products.cshtml" />
+    <None Include="Views\dp\Success.cshtml" />
+    <None Include="Views\Home\About.cshtml" />
+    <None Include="Views\Home\Contact.cshtml" />
+    <None Include="Views\Home\Index.cshtml" />
+    <None Include="Views\Home\RefundPolicy.cshtml" />
+    <None Include="Views\Home\TermsandConditions.cshtml" />
+    <None Include="Views\Misc\Login.cshtml" />
+    <None Include="Views\Misc\Unauthorised.cshtml" />
+    <None Include="Views\Shared\_AdminLayout.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Views\_ViewStart.cshtml" />
+    <None Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\" />
+    <Folder Include="css\" />
+    <Folder Include="images\" />
+    <Folder Include="js\" />
+    <Folder Include="Scripts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\..\dllfiles\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <HintPath>..\..\dllfiles\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\dllfiles\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Razorpay">
+      <HintPath>..\..\dllfiles\Razorpay.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\03-08-2021\dllfiles\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\..\dllfiles\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor">
+      <HintPath>..\..\dllfiles\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.WebPages">
+      <HintPath>..\..\dllfiles\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor">
+      <HintPath>..\..\dllfiles\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <HintPath>..\..\dllfiles\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

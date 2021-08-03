@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section LoadScriptandCss
+{
+    <link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- js -->
+    <script src="/js/jquery-1.11.1.min.js"></script>
+    <!-- start menu -->
+    <link href="/css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
+    <script type="text/javascript" src="/js/megamenu.js"></script>
+    <script src="/js/menu_jquery.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Monda:400,700' rel='stylesheet' type='text/css'>
+
+}
+<div class="contact-bottom">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29901.295588090143!2d85.99287286529594!3d20.479073275853054!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a196d71e93a123d%3A0x78b5fd97b10e21d1!2sCP%20Jewellery!5e0!3m2!1sen!2sin!4v1624089819446!5m2!1sen!2sin" frameborder="0" style="border:0" allowfullscreen></iframe>
+</div>
+<div class="contact">
+    <div class="container">
+        <div class="col-md-4 contact-left">
+            <h3>Address</h3>
+            <p>
+                Paga Chowk, Salipur, Cuttack, Odisha
+                <span></span>
+            </p>
+            <ul>
+                <li>Contact :+91 9439484681</li>
+                <li>Alternate :+91 7978837326</li>
+                <li>Landline :0671-2358344</li>
+                <li>Email :info@@cpjewellery.in</li>
+            </ul>
+        </div>
+        <div class="col-md-8 contact-left">
+            <h3>Contact Form</h3>
+            <form>
+                <input type="text" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}" required="">
+                <input type="email" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
+                <input type="text" value="Telephone" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Telephone';}" required="">
+                <textarea type="text" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message...';}" required="">Message...</textarea>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+</div>
+

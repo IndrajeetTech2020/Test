@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CP Jewellery</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Jewellery, Online Jewellery, Jewellery Store, CP jewellery" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .item {
+    position:relative;
+    padding-top:20px;
+    display:inline-block;
+}
+.notify-badge{
+    position: absolute;
+    right:-0px;
+    top:25px;
+    background:#f65a5b;
+    text-align: center;
+    border-radius: 30px 30px 30px 30px;
+    color:white;
+    padding:5px 10px;
+    font-size:15px;
+}
+        </style>
+    @RenderSection("LoadScriptandCss")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            console.log("ready function fired");
+            if (typeof (Storage) !== "undefined" && localStorage.getItem("menulist") !== null) {
+                console.log("--- Load From LocalStorage ---");
+                //delete 2 lines after ready
+                var decoded = decod('@ViewBag.Tree');
+                localStorage.setItem('menulist', decoded);
+                $('#dynamicmenu').append(localStorage.getItem('menulist'));
+                $(".megamenu").megamenu();
+            } else {
+
+                console.log("--- Load From Back-End service ---");
+                var decoded = decod('@ViewBag.Tree');
+                localStorage.setItem('menulist', decoded);
+                console.log(decoded);
+                $('#dynamicmenu').append(localStorage.getItem('menulist'));
+                $(".megamenu").megamenu();
+            }
+            var arritems = new Array();
+            var count = 0;
+            if (typeof (Storage) !== "undefined" && localStorage.getItem("cartitems") !== null) {
+                arritems = JSON.parse(localStorage.getItem('cartitems') || {});
+                count = arritems.length;
+                $('#spheaderitems').text(count);
+            }
+            else {
+
+            }
+            function decod(str)
+            {
+                var txt = document.createElement('textarea');
+                txt.innerHTML = str;
+                return txt.value;
+            }
+        })
+    </script>
+
+</head>
+<body>
+    <div class="top_bg">
+        <div class="container">
+            <div class="header_top-sec">
+                <div class="top_right">
+                    <ul>
+                        <li><a href="/Home/Contact">Contact</a></li>|
+                        <li><a href="/dp/PaymentDetails">Track Order</a></li>
+                    </ul>
+                </div>
+                <div class="top_left">
+                    <ul>
+                        <li class="top_link">Email:<a href="mailto:info@example.com">info@@cpjewellery.in</a></li>|
+                        <li class="top_link"><a href="/dp/PaymentDetails">My Account</a></li>
+                    </ul>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+    </div>
+    <div class="header_top">
+        <div class="container">
+            <div class="logo">
+                <a href="/Home/"><img src="~/images/cp.png" /></a>
+            </div>
+            <div class="header_right">
+                <div class="item cart box_1">
+                    <a href="checkout.html">
+                        <span id="spheaderitems" class="notify-badge">0</span>
+                        <img src="~/images/customcart.png" alt="" />
+                    </a>
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="mega_nav">
+        <div class="container">
+            <div class="menu_sec">
+                <!-- start header menu -->
+                <ul class="megamenu skyblue" id="dynamicmenu">
+                    <li><a class="color1" href="/Home/">Home</a></li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    @RenderBody()
+    <div class="footer">
+        <div class="container">
+            <div class="col-md-3 footer-grid">
+                <h6>About us</h6>
+                <p>For precious jewellery, CP Jewellers in Salipur, Cuttack is a recognised name in the city. With rich experience in the gems and jewellery business, this firm has become a celebrated name for stunning designs and collections. They are revered for their handpicked and exclusive designs that feature in their gold and diamond jewellery collections.</p>
+            </div>
+            <div class="col-md-3 footer-grid">
+                <h6>Information</h6>
+                <ul>
+                    <li><a href="/Home/About">About Us</a></li>
+                    <li><a href="/Home/Contact">Contact Us</a></li>
+                    <li><a href="/Home/RefundPolicy">Refund & Cancellation Policy</a></li>
+                    <li><a href="/Home/TermsandConditions">Terms &amp; Conditions</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 footer-grid">
+                <h6>My Account</h6>
+                <ul>
+                    <li><a href="login.html">My Account</a></li>
+                    <li><a href="#">Order History</a></li>
+                    <li><a href="#">Wish List</a></li>
+                    <li><a href="#">Newsletter</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 footer-grid">
+                <h6>Extras</h6>
+                <ul>
+                    <li><a href="#">Brands</a></li>
+                    <li><a href="#">Gift Vouchers</a></li>
+                    <li><a href="#">Affiliates</a></li>
+                    <li><a href="#">Specials</a></li>
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="footer-copy">
+        <p>All right reserved ©CP Jewellery </p>
+    </div>
+    <script src="js/bootstrap.js"> </script>
+</body>
+</html>

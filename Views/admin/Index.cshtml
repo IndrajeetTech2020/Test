@@ -1,0 +1,153 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CP JEWELLERY</title>
+    <!-- for-mobile-apps -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="application/x-javascript">
+        addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+               function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- //for-mobile-apps -->
+    <link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- js -->
+    <script src="/js/jquery-1.11.1.min.js"></script>
+    <!-- //js -->
+    <!-- start-smoth-scrolling -->
+    <!-- start menu -->
+    <link href='http://fonts.googleapis.com/css?family=Monda:400,700' rel='stylesheet' type='text/css'>
+        
+</head>
+
+<body>
+    <!-- header -->
+    <!-- //header -->
+    <!-- top-header -->
+    <div class="top_bg">
+        <div class="container">
+            <div class="header_top-sec">
+                <div class="top_right">
+                    <ul>
+                        <li><a href="contact.html">Contact</a></li>|
+                        <li><a href="login.html">Track Order</a></li>
+                    </ul>
+                </div>
+                <div class="top_left">
+                    <ul>
+                        <li class="top_link">Email:<a href="mailto:info@example.com">info@example.com</a></li>|
+                        <li class="top_link"><a href="login.html">My Account</a></li>
+                    </ul>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+    </div>
+    <!-- top-header -->
+    <!-- logo-cart -->
+    <div class="header_top">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">CP Jewellery</a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- //logo-cart -->
+    <!-- reg-form -->
+    <div class="login">
+        <div class="container">
+            <div class="login-grids">
+                <div class="col-md-6 log">
+                    <h3>Login</h3>
+                    <div class="strip"></div>
+                    <p>Welcome, please enter the following to continue.</p>
+                    <p>If you have previously Login with us, <a href="#">Click Here</a></p>
+                    <form>
+                        <h5>User Name:</h5>
+                        <input id="username" type="text" value="">
+                        <h5>Password:</h5>
+                        <input id="password" type="password" value="">
+                        <input type="submit" value="Login" onclick="login();return false">
+                    </form>
+                    <a id="amessage" href="#" style="color:red;display:none">Invalid username or passwrd</a>
+                </div>
+                <div class="col-md-6 login-right">
+                    <h3>New Registration</h3>
+                    <div class="strip"></div>
+                    <p>By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.</p>
+                    <a href="#" class="button">Create An Account</a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- footer -->
+    <div class="footer">
+        <div class="container">
+            <div class="col-md-3 footer-grid">
+                <h6>About us</h6>
+                <p>Suspendisse sed accumsan risus. Curabitur rhoncus, elit vel tincidunt elementum, nunc urna tristique nisi, in interdum libero magna tristique ante. adipiscing varius. Vestibulum dolor lorem.</p>
+            </div>
+            <div class="col-md-3 footer-grid">
+                <h6>Information</h6>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Delivery Information</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms &amp; Conditions</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 footer-grid">
+                <h6>My Account</h6>
+                <ul>
+                    <li><a href="login.html">My Account</a></li>
+                    <li><a href="#">Order History</a></li>
+                    <li><a href="#">Wish List</a></li>
+                    <li><a href="#">Newsletter</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 footer-grid">
+                <h6>Extras</h6>
+                <ul>
+                    <li><a href="#">Brands</a></li>
+                    <li><a href="#">Gift Vouchers</a></li>
+                    <li><a href="#">Affiliates</a></li>
+                    <li><a href="#">Specials</a></li>
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="footer-copy">
+        <p>All right reservesd ©CP Jewellery </p>
+    </div>
+    <!-- //footer -->
+    <script>
+    function login() {
+        debugger
+        $.ajax({
+            type: 'GET',
+            url: '/admin/Login',
+            datatype: JSON,
+            data: { 'username': $('#username').val(), 'password': $('#password').val() },
+            success: function (data) {
+                debugger;
+                if (data == true) {
+                    window.location.href = '/admin/Dashboard';
+                }
+                else {
+                    $('#amessage').css("display", "block");
+                }
+            },
+            error: function (data) { }
+        });
+    }
+    </script>
+</body>
+</html>

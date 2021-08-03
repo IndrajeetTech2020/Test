@@ -1,0 +1,86 @@
+﻿@model CPJewellery.Controllers.dpController.OrderModel
+@{
+    ViewBag.Title = "PaymentProcess";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section LoadScriptandCss
+{
+    
+    <link href="~/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- js -->
+    <script src="~/js/jquery-1.11.1.min.js"></script>
+    <!-- //js -->
+    <!-- start-smoth-scrolling -->
+    <!-- start menu -->
+    <link href="~/css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
+    <script type="text/javascript" src="~/js/megamenu.js"></script>
+    <script src="~/js/menu_jquery.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Monda:400,700' rel='stylesheet' type='text/css'>
+}
+<div class="container">
+    <div class="reg-form">
+        <div class="reg">
+            <h3>Waiting for payment transaction from Bank!!</h3>
+            <div class="text-center">
+                <img src="/images/loader.gif" />
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- You can hide this button -->
+<button id="rzp-button1" style="display:none">Pay</button>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+var options = {
+    "key": "@Html.DisplayFor(model => model.razorpayKey)", // Enter the Key ID generated from the Dashboard
+    "amount": "@Html.DisplayFor(model => model.amount)", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "@Html.DisplayFor(model => model.currency)",
+    "name": "@Html.DisplayFor(model => model.name)",
+    "description": "@Html.DisplayFor(model => model.description)",
+    "image": "/images/cp.png", // You can give your logo url
+    "order_id": "@Html.DisplayFor(model => model.orderId)",
+    "handler": function (response){
+        // After payment successfully made response will come here
+        // Set the data in hidden form
+        document.getElementById('rzp_paymentid').value = response.razorpay_payment_id;
+        document.getElementById('rzp_orderid').value = response.razorpay_order_id;
+
+        // // Let's submit the form automatically
+        document.getElementById('rzp-paymentresponse').click();
+    },
+    "prefill": {
+        "name": "@Html.DisplayFor(model => model.name)",
+        "email": "@Html.DisplayFor(model => model.email)",
+        "contact": "@Html.DisplayFor(model => model.contactNumber)"
+    },
+    "notes": {
+        "address": "@Html.DisplayFor(model => model.address)"
+    },
+    "theme": {
+        "color": "#F37254"
+    }
+};
+var rzp1 = new Razorpay(options);
+
+//<!-- onload function -->
+window.onload = function(){
+    document.getElementById('rzp-button1').click();
+};
+
+document.getElementById('rzp-button1').onclick = function(e){
+    rzp1.open();
+    e.preventDefault();
+}
+</script>
+<!-- This form is hidden, and submit when payment successfully made -->
+@using (Html.BeginForm("Complete", "dp"))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.Hidden("rzp_paymentid")
+    @Html.Hidden("rzp_orderid")
+    <button type="submit" id="rzp-paymentresponse" class="btn btn-primary" style="display:none">Submit</button>
+}
+

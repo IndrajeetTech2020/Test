@@ -1,0 +1,105 @@
+﻿
+@section LoadScriptandCss
+{
+    <script type="application/x-javascript">
+        addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+               function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- //for-mobile-apps -->
+    <link href="~/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- js -->
+    <script src="~/js/jquery-1.11.1.min.js"></script>
+    <!-- //js -->
+    <!-- start-smoth-scrolling -->
+    <script type="text/javascript" src="~/js/move-top.js"></script>
+    <script type="text/javascript" src="~/js/easing.js"></script>
+    <script type="text/javascript">
+	    jQuery(document).ready(function($) {
+		    $(".scroll").click(function(event){
+			    event.preventDefault();
+			    $('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+		    });
+	    });
+    </script>
+    <!-- start-smoth-scrolling -->
+    <!-- start menu -->
+    <link href="~/css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
+    <script type="text/javascript" src="~/js/megamenu.js"></script>
+    <script src="~/js/menu_jquery.js"></script>
+    <script src="~/js/simpleCart.min.js"> </script>
+    <link href='http://fonts.googleapis.com/css?family=Monda:400,700' rel='stylesheet' type='text/css'>
+    <style>
+        .loading {
+            background: transparent url('/images/loader.gif') center no-repeat;
+        }
+    </style>
+}
+
+
+<div class="products">
+    <div class="container">
+        <div class="flexslider details-lft-inf">
+            <ul class="slides">
+               
+            </ul>
+        </div>
+        <!-- FlexSlider -->
+        <script defer src="js/jquery.flexslider.js"></script>
+        <link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen" />
+
+        <script>
+			// Can also be used with $(document).ready()
+			$(window).load(function() {
+			  $('.flexslider').flexslider({
+				animation: "slide",
+				controlNav: "thumbnails"
+			  });
+			});
+        </script>
+
+
+
+
+        <div class="products-grids">
+            <div class="col-md-12 products-grid-left">
+                <div id="divproduct" class="products-grid-lft">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        getproducts();
+    });
+    function getproducts() {
+        $.ajax({
+            url: '/dp/GetProducts',
+            data: { 'categoryid': @ViewBag.CategoryID },
+            type: 'GET',
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    debugger;
+                    var rows = "";
+                    rows = "<div class='products-grd'>"
+                        + "<div class='p-one simpleCart_shelfItem prd'>"
+                        + "<a href='/dp/Proddetails/" + item.ItemID + "'>"
+                        + "<img src='/ItemPics/" + item.ItemImage + "' alt='' class='img-responsive'/>"
+                        + "<div class='mask'><span>Quick View</span></div></a>"
+                        + "<h4>" + item.ItemDescription + "</h4>"
+                        + "<p><a class='item_add' href='#'><i></i> <span class='item_price valsa'>Rs "+Math.round(item.PriceWithGst)+"</span></a></p>"
+                        + "</div></div>";
+                    $('#divproduct').append(rows);
+                });
+                if(data.length == 0){
+                    var rows = "";
+                    rows = "<div class='text-center'><img src='/images/noitems.png' /></div>";
+                    $('#divproduct').append(rows);
+                }
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+    }
+</script>

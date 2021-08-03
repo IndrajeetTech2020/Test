@@ -1,0 +1,486 @@
+﻿@{
+    ViewBag.Title = "Create bill";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section LoadScriptandCss
+{
+    <link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- js -->
+
+    <script src="/js/jquery-1.11.1.min.js"></script>
+    <!-- start menu -->
+    <link href="/css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
+    <script type="text/javascript" src="/js/megamenu.js"></script>
+    <script src="/js/menu_jquery.js"></script>
+    <script>
+        $(document).ready(function () { $(".megamenu").megamenu(); });
+    </script>
+    
+    <link href='http://fonts.googleapis.com/css?family=Monda:400,700' rel='stylesheet' type='text/css'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.js" integrity="sha512-MqEDqB7me8klOYxXXQlB4LaNf9V9S0+sG1i8LtPOYmHqICuEZ9ZLbyV3qIfADg2UJcLyCm4fawNiFvnYbcBJ1w==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.css" integrity="sha512-hwwdtOTYkQwW2sedIsbuP1h0mWeJe/hFOfsvNKpRB3CkRxq8EW7QMheec1Sgd8prYxGm1OM9OZcGW7/GUud5Fw==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    @*<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>*@
+    @*<script>
+      $( function() {
+          $("#billdate").datepicker({
+              dateFormat: "dd-MM-yy"
+            });
+      } );
+    </script>*@
+    <style>
+        .table{
+            width:100%;
+            border: 0px solid red;
+            padding: 0px;
+            border-collapse:collapse
+        }
+    </style>
+
+}
+<div class="reg-form">
+    <div class="container">
+        <div class="reg">
+            <h3>Create Invoice</h3>
+            <form>
+                <ul>
+                    <li class="text-info">Invoice Type: </li>
+                    <li>
+                        <select id="ddlgsttype" onchange="gsttype()">
+                            <option value="1">With Gst</option>
+                            <option value="2">Without Gst</option>
+                        </select>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="text-info">Select Category 1: </li>
+                    <li>
+                        <select id="ddlcategory0" onchange="getcategories1()" style="width:100%"></select>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="text-info">Select Category 2: </li>
+                    <li>
+                        <select id="ddlcategory1" onchange="getcategories2()" style="width:100%"></select>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="text-info">Category3: </li>
+                    <li><select id="ddlcategory2" onchange="getitems()" style="width:100%"></select></li>
+                </ul>
+                <ul>
+                    <li class="text-info">Select Item: </li>
+                    <li>
+                        <select id="ddlitem" onchange="getitemdetails()" style="width:100%"></select>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="text-info">Item Description </li>
+                    <li>
+                        <input id="description" type="text" disabled="disabled" value="">
+                    </li>
+                </ul>
+                <ul>
+                    <li class="text-info">Caret </li>
+                    <li>
+                        <input id="caret" type="text" disabled="disabled" value="">
+                    </li>
+                </ul>
+                <ul>
+                    <li class="text-info">Weight </li>
+                    <li>
+                        <input id="weight" type="text" disabled="disabled" value="">
+                    </li>
+                </ul>
+                <ul>
+                    <li class="text-info">Todays Rate </li>
+                    <li>
+                        <input id="rate" disabled="disabled" type="text" value="">
+                    </li>
+                </ul>
+                <ul>
+                    <li class="text-info">Making Charges </li>
+                    <li>
+                        <input id="makingchg" type="text" value="">
+                    </li>
+                </ul>
+                <ul>
+                    <li class="text-info">Discount </li>
+                    <li>
+                        <input id="discount" type="text" value="">
+                    </li>
+                </ul>
+                <ul>
+                    <li class="text-info">Stock Available </li>
+                    <li>
+                        <input id="openingqty" disabled="disabled" type="text" value="">
+                    </li>
+                </ul>
+                <ul>
+                    <li class="text-info">Qty: </li>
+                    <li>
+                        <input id="qty" type="text" value="">
+                        <input type="hidden" id="price" />
+                        <input type="hidden" id="makingchgamt" />
+                        <input type="hidden" id="discountamt" />
+                    </li>
+                </ul>
+                <input type="submit" value="ADD" onclick="add();return false">
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="reg">
+        <table id="invoicetable" class="table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Description</th>
+                    <th>Caret</th>
+                    <th>Weight</th>
+                    <th>Qty</th>
+                    <th>Making per gram</th>
+                    <th>Discount</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody> 
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><b>Subtotal</b></td>
+                    <td><b id="subtotal">0.00</b></td>
+                </tr>
+                <tr style="border:hidden">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr style="border:hidden">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><b>GST(<span id="gst"></span>%)</b></td>
+                    <td><b id="gstamt">0.00</b></td>
+                </tr>
+                <tr style="border:hidden">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><b>Bill Amt.</b></td>
+                    <td><b id="billamt">0.00</b></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+<div class="container">
+    <div class="reg">
+        <form>
+            <ul>
+                <li class="text-info">Bill To: </li>
+                <li>
+                    <input id="billto" type="text" value="">
+                </li>
+            </ul>
+            <ul>
+                <li class="text-info">Address: </li>
+                <li>
+                    <input id="billaddress" type="text" value="">
+                </li>
+            </ul>
+            <input type="submit" value="SAVE" onclick="save();return false">
+        </form>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        getcategories0();
+    });
+    function getcategories0() {
+        $.ajax({
+            url: '/Category/GetCategorybyParentCat',
+            data: { '_parent': 0 },
+            type: 'GET',
+            success: function (data) {
+                var markup = "<option value=''>Select</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                }
+                $("#ddlcategory0").html(markup).show();
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+    };
+    function getcategories1() {
+        $.ajax({
+            url: '/Category/GetCategorybyParentCat',
+            data: { '_parent': $("#ddlcategory0 option:selected").val() },
+            type: 'GET',
+            success: function (data) {
+                var markup = "<option value=''>Select</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                }
+                $("#ddlcategory1").html(markup).show();
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+    };
+    function getcategories2() {
+        $.ajax({
+            url: '/Category/GetCategorybyParentCat',
+            data: { '_parent': $("#ddlcategory1 option:selected").val() },
+            type: 'GET',
+            success: function (data) {
+                var markup = "<option value=''>Select</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                }
+                $("#ddlcategory2").html(markup).show();
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+    };
+    function getitems() {
+        $.ajax({
+            url: '/admin/getitems',
+            data: { '_categoryID': $("#ddlcategory2 option:selected").val() },
+            type: 'GET',
+            success: function (data) {
+                var markup = "<option value=''>Select</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                }
+                $("#ddlitem").html(markup).show();
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+    };
+    function getitemdetails() {
+        $.ajax({
+            type: "GET",
+            data: { '_itemid': $("#ddlitem option:selected").val() },
+            url: "/admin/getitemdetails",
+            dataType: "json",
+            success: function (data) {
+                $("#description").val(data.ItemDescription);
+                $("#caret").val(data.Caret);
+                $("#weight").val(data.Weight);
+                $("#rate").val(data.MetalPrice);
+                $("#makingchg").val(data.MakingCharges);
+                $("#discount").val(data.Discount);
+                $("#price").val(data.Price);
+                $("#makingchgamt").val(data.MakingChargesAmt);
+                $("#discountamt").val(data.DiscountAmt);
+                $("#openingqty").val(data.Qty);
+                if ($("#ddlgsttype option:selected").val() == '1')
+                    $("#gst").html(data.GST);
+                else   
+                    $("#gst").html(0);
+                
+            },
+            error: function (xhr, status, error) {
+                alert(status);
+            }
+        });
+    };
+    function save() {
+        var rowCount = $("#invoicetable tbody tr").length;
+        if (rowCount == 0) {
+            swal("No Items added to invoice", "CP Jewellery", "error");
+            return;
+        }
+        if ($('#billto').val() == '') {
+            $('#billto').css('border', '2px solid red');
+            swal("Enter Bill name", "CP Jewellery", "error");
+            return;
+        }
+        var arritems = new Array();
+        $("#invoicetable tbody tr").each(function () {
+            debugger
+            var row = $(this);
+            var Item = {};
+            Item.ItemID = row.find("TD").eq(10).html();
+            Item.ItemName = row.find("TD").eq(0).html();
+            Item.ItemDescription = row.find("TD").eq(1).html();
+            Item.Caret = row.find("TD").eq(2).html();
+            Item.Weight = row.find("TD").eq(3).html();
+            Item.MetalPrice = row.find("TD").eq(9).html();
+            Item.MakingCharges = row.find("TD").eq(5).html();
+            Item.MakingChargesAmt = row.find("TD").eq(12).html();
+            Item.Discount = row.find("TD").eq(6).html();
+            Item.DiscountAmt = row.find("TD").eq(11).html();
+            Item.Price = row.find("TD").eq(7).html();
+            Item.Weight = row.find("TD").eq(13).html();
+            //master save
+            Item.Subtotal = $('#subtotal').text();
+            Item.GST = $('#gst').text();
+            Item.GSTAmt = $('#gstamt').text();
+            Item.PriceWithGst = $('#billamt').text();
+            Item.Billto = $('#billto').val();
+            Item.Billaddress = $('#billaddress').val();
+            arritems.push(Item);
+        });
+        $.ajax({
+            type: "POST",
+            url: "/admin/saveinvoice",
+            data: JSON.stringify(arritems),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                swal({
+                    title: "INVOICE CREATED SUCESSFULLY",
+                    text: "INVOICE # " + r + "",
+                    type: "success",
+
+                }, function () {
+                    var url = '';
+                    if ($('#gstamt').text() != 0) {
+                        url = '/admin/Billprint?no=' + r + '&type=no=1';
+                    }
+                    else
+                        url = '/admin/Billprint?no=' + r + '&type=no=2';
+                    location.href = url;
+                });
+            }
+        });
+    };
+    function add() {
+        debugger
+        if (validate() == 1) {
+            return;
+        }
+        var rows = "";
+        rows = "<tr>"
+            + "<td>" + $("#ddlitem option:selected").text() + "</td>"
+            + "<td>" + $("#description").val() + "</td>"
+            + "<td>" + $("#caret").val() + "</td>"
+            + "<td>" + $("#weight").val() + "</td>"
+            + "<td>" + $("#qty").val() + "</td>"
+            + "<td>" + $("#makingchg").val() + "</td>"
+            + "<td>" + $("#discount").val() + "</td>"
+            + "<td>" + $("#price").val() + "</td>"
+            + "<td><img src='/images/close_1.png' onclick='remove(" + $('#invoicetable').length + ")'/></td>8"
+            + "<td>" + $("#rate").val() + "</td>"
+            + "<td>" + $("#ddlitem option:selected").val() + "</td>"
+            + "<td>" + $("#discountamt").val() + "</td>"
+            + "<td>" + $("#makingchgamt").val() + "</td>"
+            + "<td>" + $("#weight").val() + "</td>"
+            + "</tr>";
+        $('#invoicetable tbody').append(rows);
+        $('#subtotal').text(parseFloat($("#price").val()) + parseFloat($('#subtotal').text()));
+        $('#gstamt').text((parseFloat($('#subtotal').text()) * parseFloat($('#gst').text()) / 100).toFixed(2));
+        $('#billamt').text(Math.round(parseFloat($('#subtotal').text()) + parseFloat($('#gstamt').text())).toFixed(2));
+        $("#ddlcategory0").prop("selectedIndex", 0);
+        $("#ddlcategory1").prop("selectedIndex", 0);
+        $("#ddlcategory2").prop("selectedIndex", 0);
+        $("#ddlitem").prop("selectedIndex", 0);
+        $("#description").val('');
+        $("#caret").val('');
+        $("#weight").val('');
+        $("#rate").val('');
+        $("#makingchg").val('');
+        $("#discount").val('');
+        $("#qty").val('');
+        $("#price").val('');
+        $("#makingchgamt").val('');
+        $("#discountamt").val('');
+        $("#openingqty").val('');
+    };
+    function remove(rowindex) {
+        debugger
+        document.getElementById("invoicetable").deleteRow(rowindex);
+        
+        $('#subtotal').text(parseFloat($('#subtotal').text()) - parseFloat(document.getElementById('invoicetable').rows[rowindex].cells[7].innerText));
+        $('#gstamt').text((parseFloat($('#subtotal').text()) * parseFloat($('#gst').text()) / 100).toFixed(2));
+        $('#billamt').text(Math.round(parseFloat($('#subtotal').text()) + parseFloat($('#gstamt').text())).toFixed(2));
+    }
+    function validate() {
+        var flag = 0;
+        if ($("#ddlcategory0 option:selected").text() == 'Select') {
+            $("#ddlcategory0").css('border', '2px solid red');
+            flag = 1;
+        }
+        else
+            $("#ddlcategory0").css('border', '1px solid black');
+
+        if ($("#ddlcategory1 option:selected").text() == 'Select') {
+            $("#ddlcategory1").css('border', '2px solid red');
+            flag = 1;
+        }
+        else
+            $("#ddlcategory1").css('border', '1px solid black');
+
+        if ($("#ddlcategory2 option:selected").text() == 'Select') {
+            $("#ddlcategory2").css('border', '2px solid red');
+            flag = 1;
+        }
+        else
+            $("#ddlcategory2").css('border', '1px solid black');
+
+        if ($("#ddlitem option:selected").text() == 'Select') {
+            $("#ddlitem").css('border', '2px solid red');
+            flag = 1;
+        }
+        else
+            $("#ddlitem").css('border', '1px solid black');
+
+        if ($("#discount").val() == '') {
+            $("#discount").css('border', '2px solid red');
+            flag = 1;
+        }
+        else
+            $("#discount").css('border', '1px solid black');
+
+        if ($("#qty").val() == '' || $("#qty").val() == '0') {
+            $("#qty").css('border', '2px solid red');
+            flag = 1;
+        }
+        else
+            $("#qty").css('border', '1px solid black');
+
+        if ($("#openingqty").val() < $("#qty").val()) {
+            swal("Insufficient Stock", "CP Jewellery", "warning");
+            $("#qty").css('border', '2px solid red');
+            flag = 1;
+        }
+        else
+            $("#qty").css('border', '1px solid black');
+        return flag;
+    };
+    function gsttype() {
+        $("#ddlgsttype").prop("disabled", "disabled");
+
+    }
+</script>

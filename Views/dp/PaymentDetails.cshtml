@@ -1,0 +1,124 @@
+﻿@model CPJewellery.Models.PaymentInitiateModel
+@{
+    ViewBag.Title = "PaymentDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section LoadScriptandCss
+{
+    <script type="application/x-javascript">
+        addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+               function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- //for-mobile-apps -->
+    <link href="~/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- js -->
+    <script src="~/js/jquery-1.11.1.min.js"></script>
+    <link href="~/css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
+    <script type="text/javascript" src="~/js/megamenu.js"></script>
+    <script src="~/js/menu_jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.js" integrity="sha512-MqEDqB7me8klOYxXXQlB4LaNf9V9S0+sG1i8LtPOYmHqICuEZ9ZLbyV3qIfADg2UJcLyCm4fawNiFvnYbcBJ1w==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.css" integrity="sha512-hwwdtOTYkQwW2sedIsbuP1h0mWeJe/hFOfsvNKpRB3CkRxq8EW7QMheec1Sgd8prYxGm1OM9OZcGW7/GUud5Fw==" crossorigin="anonymous" />
+    <!-- //js -->
+    <link href='http://fonts.googleapis.com/css?family=Monda:400,700' rel='stylesheet' type='text/css'>
+}
+<div class="reg-form">
+    <div id="otpsection" class="container" style="display:block">
+        <div class="reg">
+            <h3>Log In</h3>
+            <p>Welcome, please enter your mobile number to continue.</p>
+            <form>
+                <ul>
+                    <li class="text-info">Mobile No.</li>
+                    <li>
+                        <input id="mobileno" type="text" value="">
+                    </li>
+                </ul>
+                <input type="submit" value="GET OTP" onclick="getotp();return false">
+            </form>
+        </div>
+    </div>
+</div>
+<div class="reg-form">
+    <div id="otpverifysection" class="container" style="display:none">
+        <div class="reg">
+            <p>OTP sent to your mobile number</p>
+            <form>
+                <ul>
+                    <li class="text-info">Enter OTP </li>
+                    <li>
+                        <input id="hiddenotp" type="hidden" value="">
+                        <input id="otp" type="text" value="">
+                    </li>
+                </ul>
+                <input type="submit" value="VERIFY" onclick="verifyotp();return false">
+            </form>
+        </div>
+    </div>
+</div>
+<div class="reg-form">
+
+    <div id="paymentsection" class="container" style="display:none">
+        <div class="reg">
+            <p>Please enter your billing address for delivery shipment</p>
+            @using (Html.BeginForm("CreateOrder", "dp", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <ul>
+                    <li class="text-info">Enter Name </li>
+                    <li>
+                        @Html.TextBoxFor(x => x.name)
+                    </li>
+                </ul>
+                <ul>
+                    <li class="text-info">Enter Email address </li>
+                    <li>
+                        @Html.TextBoxFor(x => x.email)
+                    </li>
+                </ul>
+                <ul>
+                    <li class="text-info">Enter Billing address </li>
+                    <li>
+                        @Html.TextBoxFor(x => x.address)
+                    </li>
+                </ul>
+                <ul>
+                    <li class="text-info">Enter Pincode </li>
+                    <li>
+                        @Html.TextBoxFor(x => x.pincode)
+                        @Html.HiddenFor(x => x.contactNumber)
+                        @Html.HiddenFor(x => x.transactionid)
+                        @Html.HiddenFor(x => x.amount)
+                    </li>
+                </ul>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            }
+        </div>
+    </div>
+</div>
+<script>
+    function getotp() {
+        $.ajax({
+            url: '/dp/GetOtp',
+            type: 'GET',
+            success: function (data) {
+                $('#hiddenotp').val(data);
+                $('#otpsection').css('display', 'none');
+                $('#otpverifysection').css('display', 'block');
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+    }
+    function verifyotp() {
+        if ($('#hiddenotp').val() == $('#otp').val()) {
+            $('#contactNumber').val($('#mobileno').val());
+            $('#otpverifysection').css('display', 'none');
+            $('#paymentsection').css('display', 'block');
+        }
+        else {
+            document.getElementById('otp').style.border = "2px solid red";
+            swal("Invalid OTP", "CP Jewellery", "error");
+        }
+    }
+</script>

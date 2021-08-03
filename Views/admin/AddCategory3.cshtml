@@ -1,0 +1,116 @@
+﻿
+
+@{
+    ViewBag.Title = "AddProducts";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@section LoadScriptandCss
+{
+    <link href="../css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="../css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- js -->
+
+    <script src="../js/jquery-1.11.1.min.js"></script>
+    <!-- start menu -->
+    <link href="../css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
+    <script type="text/javascript" src="../js/megamenu.js"></script>
+    <script>$(document).ready(function(){$(".megamenu").megamenu();});</script>
+    <link href='http://fonts.googleapis.com/css?family=Monda:400,700' rel='stylesheet' type='text/css'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.js" integrity="sha512-MqEDqB7me8klOYxXXQlB4LaNf9V9S0+sG1i8LtPOYmHqICuEZ9ZLbyV3qIfADg2UJcLyCm4fawNiFvnYbcBJ1w==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.css" integrity="sha512-hwwdtOTYkQwW2sedIsbuP1h0mWeJe/hFOfsvNKpRB3CkRxq8EW7QMheec1Sgd8prYxGm1OM9OZcGW7/GUud5Fw==" crossorigin="anonymous" />
+}
+<div class="reg-form" style="pointer-events: none;opacity: 0.7;">
+    <div class="container">
+        <div class="reg">
+            <h3>Add DeSub Category</h3>
+            <form>
+                <ul>
+                    <li class="text-info">Select Category 1: </li>
+                    <li>
+                        <select id="ddlcategory0" onchange="getcategories1()" style="width:100%"></select>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="text-info">Select Category 2: </li>
+                    <li>
+                        <select id="ddlcategory1" style="width:100%"></select>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="text-info">Category3: </li>
+                    <li><input id="Category2" type="text" value=""></li>
+                </ul>
+                <input type="submit" value="ADD" onclick="save();return false">
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        getcategories0();
+    });
+    function getcategories0() {
+        $.ajax({
+            url: '/Category/GetCategorybyParentCat',
+            data: { '_parent': 0 },
+            type: 'GET',
+            success: function (data) {
+                var markup = "<option value=''>Select</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                }
+                $("#ddlcategory0").html(markup).show();
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+    };
+    function getcategories1() {
+        $.ajax({
+            url: '/Category/GetCategorybyParentCat',
+            data: { '_parent': $("#ddlcategory0 option:selected").val() },
+            type: 'GET',
+            success: function (data) {
+                var markup = "<option value=''>Select</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                }
+                $("#ddlcategory1").html(markup).show();
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+    };
+    function save() {
+        debugger
+        var Category = {};
+        Category.CategoryName = $('#Category2').val();
+        Category.ParentCategoryId = $("#ddlcategory1 option:selected").val();
+        $.ajax({
+            type: "POST",
+            data: { '_category': Category },
+            url: "/Category/SaveCategory",
+            dataType: "json",
+            success: function (data) {
+                debugger
+                if (data == 'saved') {
+                    swal('CPJEWELLERY', 'Category Added', 'success');
+                    $('#ddlcategory0').prop('selectedIndex', 0);
+                    $('#ddlcategory1').prop('selectedIndex', 0);
+                    $('#Category2').val('');
+                }
+                else {
+                    swal('CPJEWELLERY', 'Products Added', 'error');
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(status);
+            }
+        });
+    }
+</script>
+
+
+

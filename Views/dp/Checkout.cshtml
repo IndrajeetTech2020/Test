@@ -1,0 +1,169 @@
+﻿
+@{
+    ViewBag.Title = "Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section LoadScriptandCss
+{
+    <link href="~/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- js -->
+    <script src="~/js/jquery-1.11.1.min.js"></script>
+    <!-- //js -->
+    <!-- start-smoth-scrolling -->
+    <script type="text/javascript" src="~/js/move-top.js"></script>
+    <script type="text/javascript" src="~/js/easing.js"></script>
+    <!-- start-smoth-scrolling -->
+    <!-- start menu -->
+    <link href="~/css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
+    <script type="text/javascript" src="~/js/megamenu.js"></script>
+    <script src="~/js/menu_jquery.js"></script>
+    <script src="~/js/simpleCart.min.js"> </script>
+    <link href='http://fonts.googleapis.com/css?family=Monda:400,700' rel='stylesheet' type='text/css'>
+}
+<div class="container">
+    <div class="check">
+        <div id="divcart" class="col-md-3 cart-total">
+            @*<a class="continue" href="/Home/Index">Continue to basket</a>*@
+            <div class="price-details">
+                <h3>Price Details</h3>
+                <span>Discount</span>
+                <span class="total1">5%(Festival Offer)</span>
+                <span>Total</span>
+                <span id="sptotal" class="total1">0.00</span>
+                <span>Delivery Charges</span>
+                <span class="total1">0.00</span>
+                <div class="clearfix"></div>
+            </div>
+            <ul class="total_price">
+                <li class="last_price"> <h4>TOTAL</h4></li>
+                <li class="last_price"><span id="spbillamount">0.00</span></li>
+                <div class="clearfix"> </div>
+            </ul>
+            <div class="clearfix"></div>
+            <a style="cursor:pointer" id="placeorder" class="order" onclick="">Continue Shopping</a>
+            <a style="cursor:pointer" id="placeorder" class="order" onclick="save()" >Place Order</a>
+            <div class="total-item">
+                <h3>OPTIONS</h3>
+                <h4>COUPONS</h4>
+                <a class="cpns" href="#">Coupons Applied</a>
+            </div>
+        </div>
+        <div class="col-md-9 cart-items">
+            <h1><span id="spshoppingbag"></span></h1>
+            <div id="mycart"></div>
+            <!--add here-->
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        debugger
+        var arritems = new Array();
+        var count = 0;
+        if (typeof (Storage) !== "undefined" && localStorage.getItem("cartitems") !== null) {
+            arritems = JSON.parse(localStorage.getItem('cartitems') || {});
+            count = arritems.length;
+        }
+        else {
+
+        }
+        var total = 0;
+        $('#mycart').empty();
+        $.each(arritems, function (i, item) {
+            debugger
+            total += item.PriceWithGst;
+            var rows = "";
+            rows = "<div id='div" + i + "' class='cart-header'>"
+                    + "<div class='close1' onclick='removecart(" + i + ")'></div>"
+                    + "<div class='cart-sec simpleCart_shelfItem'>"
+                    + "<div class='cart-item cyc'>"
+                    + "<img src='/ItemPics/" + item.ItemImage + "' class='img-responsive' /></div>"
+                    + "<div class='cart-item-info'>"
+                    + "<ul class='qty'><li><p>" + item.ItemDescription + "</p></li><li><p>Rs. " + Math.round(item.PriceWithGst) + "</p></li> </ul>"
+                    + "<div class='delivery'>"
+                    + "<span>Delivered in 5-6 bussiness days</span>"
+                    + "<div class='clearfix'></div></div>"
+                    + "</div></div><div class='clearfix'></div></div></div></div></div>";
+            $('#mycart').append(rows);
+        });
+        if (count == 0) {
+            $('#divcart').hide();
+            $("#spshoppingbag").html('<div class="text-center"><img src="/images/emptycart.png" /></div>');
+            $("#spheaderitems").html(0);
+        }
+        else {
+            $("#spshoppingbag").text('My Shopping Bag(' + count + ')');
+            $("#sptotal").text(Math.round(total));
+            $("#spbillamount").text(Math.round(total));
+            $("#spheaderitems").html(count);
+        }
+    });
+</script>
+<script>
+    function removecart(cont) {
+        debugger
+        var arritems = JSON.parse(localStorage.getItem('cartitems') || {})
+        arritems.splice(cont, 1);
+        debugger
+        localStorage.setItem('cartitems', JSON.stringify(arritems));
+        var count = arritems.length;
+        var total = 0;
+        $('#mycart').empty();
+        $.each(arritems, function (i, item) {
+            debugger
+            total += item.PriceWithGst;
+            var rows = "";
+            rows = "<div id='div" + i + "' class='cart-header'>"
+                    + "<div class='close1' onclick='removecart(" + i + ")'></div>"
+                    + "<div class='cart-sec simpleCart_shelfItem'>"
+                    + "<div class='cart-item cyc'>"
+                    + "<img src='/ItemPics/" + item.ItemImage + "' class='img-responsive' /></div>"
+                    + "<div class='cart-item-info'>"
+                    + "<ul class='qty'><li><p>" + item.ItemDescription + "</p></li><li><p>Qty : 1</p></li> </ul>"
+                    + "<div class='delivery'>"
+                    + "<p" + item.ItemDescription + "</p>"
+                    + "<span>Delivered in 5-6 bussiness days</span>"
+                    + "<div class='clearfix'></div></div>"
+                    + "</div></div><div class='clearfix'></div></div></div></div></div>";
+            $('#mycart').append(rows);
+        });
+        if (count == 0) {
+            $('#divcart').hide();
+            $("#spshoppingbag").html('<div class="text-center"><img src="/images/emptycart.png" /></div>');
+            $("#spheaderitems").html(0);
+        }
+        else {
+            $("#spshoppingbag").text('My Shopping Bag(' + count + ')');
+            $("#sptotal").text(Math.round(total));
+            $("#spbillamount").text(Math.round(total));
+            $("#spheaderitems").html(count);
+        }
+    };
+    function save() {
+        debugger
+        $('#placeorder').attr("disabled", "disabled");
+        var arritems = new Array();
+        var count = 0;
+        if (typeof (Storage) !== "undefined" && localStorage.getItem("cartitems") !== null) {
+            arritems = JSON.parse(localStorage.getItem('cartitems') || {});
+            count = arritems.length;
+
+            //$.each(arritems, function (i, item) {
+            //    alert(item.ItemDescription);
+            //});
+            $.ajax({
+                type: "POST",
+                url: "/dp/savetransaction",
+                data: JSON.stringify(arritems),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    window.location.href = "/dp/PaymentDetails";
+                }
+            });
+        }
+    };
+</script>
+

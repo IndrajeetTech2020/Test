@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script>
+        function add() {
+            debugger
+            var arritems = new Array();
+            var item = {};
+            item.ID = arritems.length;
+            item.Price = '750';
+            alert(item.Price);
+            arritems.push(item);
+            var item = {};
+            item.ID = arritems.length;
+            item.Price = '850';
+            alert(item.Price);
+            arritems.push(item);
+            localStorage.setItem('member-data', JSON.stringify(arritems));
+        }
+        function retrieve() {
+            debugger
+            var arritems = JSON.parse(localStorage.getItem('member-data') || {})
+            var item = {};
+            item.ID = arritems.length;
+            item.Price = '750';
+            arritems.push(item);
+            $.each(arritems, function (i, item) {
+                debugger
+                var rows = "";
+                rows = "<tr class='bg-danger'>"
+                        + "<td>" + item.ID + "</td>"
+                        + "<td>" + item.Price + "</td>"
+                        + "<td><button onclick='deleteitem(" + item.ID + ")'>Delete</button></td>"
+                        + "</tr>";
+                $('#tblcheckout tbody').append(rows);
+            });
+        }
+        function deleteitem(index) {
+            debugger
+            var arritems = JSON.parse(localStorage.getItem('member-data') || {})
+            arritems.splice(index, 1);
+        }
+    </script>
+</head>
+<body>
+    <input id="size" type="text" />
+    <button onclick="add();">ADD</button>
+    <button onclick="retrieve();">ADD</button>
+    <table id="tblcheckout">
+        <thead>
+            <tr>
+                <td>ID</td>
+                <td>Seze</td>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</body>
+</html>

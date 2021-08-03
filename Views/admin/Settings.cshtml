@@ -1,0 +1,129 @@
+﻿
+@{
+    ViewBag.Title = "Settings";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@section LoadScriptandCss
+{
+    <link href="../css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="../css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- js -->
+
+    <script src="../js/jquery-1.11.1.min.js"></script>
+    <!-- start menu -->
+    <link href="../css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
+    <script type="text/javascript" src="../js/megamenu.js"></script>
+    <script>$(document).ready(function(){$(".megamenu").megamenu();});</script>
+    <link href='http://fonts.googleapis.com/css?family=Monda:400,700' rel='stylesheet' type='text/css'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.js" integrity="sha512-MqEDqB7me8klOYxXXQlB4LaNf9V9S0+sG1i8LtPOYmHqICuEZ9ZLbyV3qIfADg2UJcLyCm4fawNiFvnYbcBJ1w==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.css" integrity="sha512-hwwdtOTYkQwW2sedIsbuP1h0mWeJe/hFOfsvNKpRB3CkRxq8EW7QMheec1Sgd8prYxGm1OM9OZcGW7/GUud5Fw==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+      $(function() {
+          $("#billdate").datepicker({
+              dateFormat: "dd-MM-yy"
+            });
+      });
+    </script>
+
+}
+
+<div class="container">
+    <div class="reg-form">
+        <div class="reg">
+            <h3>Settings</h3>
+            <form>
+                <ul>
+                    <li class="text-info">Gold 22 Rate </li>
+                    <li>
+                        <input id="gold22rate" type="text" value="" />
+                    </li>
+
+                </ul>
+                <ul>
+                    <li class="text-info">Gold 18 Rate </li>
+                    <li>
+                        <input id="gold18rate" type="text" value="">
+                    </li>
+                </ul>
+                <ul>
+                    <li class="text-info">Silver rate </li>
+                    <li>
+                        <input id="silverrate" type="text" value="">
+                    </li>
+                </ul>
+                <ul>
+                    <li class="text-info">Gold Making charge </li>
+                    <li>
+                        <input id="goldmakingchg" type="text" value="">
+                    </li>
+                </ul>
+                <ul>
+                    <li class="text-info">Silver Making Charge </li>
+                    <li>
+                        <input id="silvermakingchg" type="text" value="">
+                    </li>
+                </ul>
+                <ul>
+                    <li class="text-info">GST </li>
+                    <li>
+                        <input id="gst" type="text" value="">
+                    </li>
+                </ul>
+                <input type="submit" value="UPDATE" onclick="update();return false">
+            </form>
+        </div>
+    </div>
+    
+</div>
+<script>
+    $(document).ready(function () {
+        getsettings();
+    });
+    function getsettings() {
+        $.ajax({
+            url: '/admin/Getsettings',
+            type: 'GET',
+            success: function (data) {
+                
+                $("#gold22rate").val(data.Gold22Rate);
+                $("#gold18rate").val(data.Gold18Rate);
+                $("#silverrate").val(data.SilverRate);
+                $("#goldmakingchg").val(data.GoldMakingChargesDiscount);
+                $("#silvermakingchg").val(data.SilverMakingChargesDiscount);
+                $("#gst").val(data.GST);
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+    };
+    function update() {
+        var _metalrate = {};
+        _metalrate.Gold22Rate = $('#gold22rate').val();
+        _metalrate.Gold18Rate = $('#gold18rate').val();
+        _metalrate.SilverRate = $('#silverrate').val();
+        _metalrate.GoldMakingChargesDiscount = $('#goldmakingchg').val();
+        _metalrate.SilverMakingChargesDiscount = $('#silvermakingchg').val();
+        _metalrate.GST = $('#gst').val();
+        $.ajax({
+            type: "POST",
+            url: "/admin/Updatesettings",
+            data: JSON.stringify(_metalrate),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                if (r == 'saved') {
+                    swal("Setting saved!", "CP Jewellery", "success");
+                }
+                else {
+                    swal('Unable to update', r, error);
+                }
+
+            }
+        });
+    };
+</script>
